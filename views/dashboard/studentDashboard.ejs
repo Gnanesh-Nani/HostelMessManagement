@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <!-- Background Image -->
+    <div class="bg-image"></div>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/mealPlan">Meal Plan</a></li>
+            <li><a href="/payments">Payments</a></li>
+            <li><a href="/feedback">Feedback</a></li>
+            <li><a href="/notifications">Notifications</a></li>
+            <li><a href="/profile">Profile</a></li>
+        </ul>
+        <div class="logout">
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+    <!-- Content Container -->
+    <div class="container">
+        <section class="widget">
+            <h3>Meal Plan</h3>
+            <p>Today's meal: Rice and Curry</p>
+            <a href="/mealPlan">View Weekly Plan</a>
+        </section>
+        
+        <section class="widget">
+            <h3>Payments</h3>
+            <p>Outstanding Balance: $200</p>
+            <a href="/payments">View Payment History</a>
+        </section>
+        
+        <section class="widget">
+            <h3>Feedback</h3>
+            <p>Last Response: Resolved - Maintenance Issue</p>
+            <a href="/feedback">Submit Feedback</a>
+        </section>
+
+        <section class="widget">
+            <h3>Notifications</h3>
+            <ul>
+                <li>Payment Due Reminder</li>
+                <li>Electricity Bill Due</li>
+            </ul>
+        </section>
+    </div>
+
+    <script src="/public/js/dashboard.js"></script>
+</body>
+</html>

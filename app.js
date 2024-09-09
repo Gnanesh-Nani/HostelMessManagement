@@ -5,10 +5,11 @@ const express = require('express');
 const session = require('express-session');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const path = require('path'); // Add this line to require the 'path' module
 const app = express();
 
 // Middleware
-app.use(express.static('public'));
+app.use(express.static('public')); // Ensure your static files are in the 'public' directory
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({
@@ -21,12 +22,17 @@ app.use(morgan('combined'));
 
 // Set view engine to EJS
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views')); // Ensure this is correct if your views are in a different directory
 
 // Import and use routes
 const authRoutes = require('./routes/authRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+const feedbackRoutes = require('./routes/feedbackRoutes');  
 app.use('/', authRoutes);
+app.use('/', dashboardRoutes);
+app.use('/', feedbackRoutes);
 
-// Define a basic route
+// Define a basic route (can be removed if not needed)
 app.get('/', (req, res) => {
     res.send('Hostel & Mess Management System is running!');
 });
@@ -46,5 +52,5 @@ const PORT = process.env.PORT || 3000;
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}/login`);
 });
