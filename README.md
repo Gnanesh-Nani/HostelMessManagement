@@ -1,7 +1,3 @@
-this is our projct
-
-Here’s a revised version of your project description:
-
 ---
 
 The project includes the following features:
