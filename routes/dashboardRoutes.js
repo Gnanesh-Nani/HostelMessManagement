@@ -1,14 +1,20 @@
 const express = require('express');
 const router = express.Router();
 
-// Dashboard route for student
-router.get('/dashboard', (req, res) => {
-    res.render('dashboard/studentDashboard'); // Adjust for user or admin
+// Student Dashboard Route
+router.get('/dashboard/student', (req, res) => {
+    if (!req.session.userId || req.session.userType !== 'student') {
+        return res.redirect('/login'); // Redirect to login if not authenticated
+    }
+    res.render('dashboard/student'); // Render the student dashboard view
 });
 
-// Dashboard route for admin
-router.get('/admin/dashboard', (req, res) => {
-    res.render('dashboard/adminDashboard');
+// Admin Dashboard Route
+router.get('/dashboard/admin', (req, res) => {
+    if (!req.session.userId || req.session.userType !== 'admin') {
+        return res.redirect('/login'); // Redirect to login if not authenticated
+    }
+    res.render('dashboard/admin'); // Render the admin dashboard view
 });
 
 module.exports = router;

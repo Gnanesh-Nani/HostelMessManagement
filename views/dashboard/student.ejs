@@ -5,31 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/navbar-footer.css">
 </head>
 <body>
     <!-- Background Image -->
     <div class="bg-image"></div>
-    
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/mealPlan">Meal Plan</a></li>
-            <li><a href="/payments">Payments</a></li>
-            <li><a href="/feedback">Feedback</a></li>
-            <li><a href="/notifications">Notifications</a></li>
-            <li><a href="/profile">Profile</a></li>
-        </ul>
-        <div class="logout">
-            <a href="/logout">Logout</a>
-        </div>
-    </nav>
+
+    <%- include('../partials/navbar') %>
     <!-- Content Container -->
     <div class="container">
         <section class="widget">
             <h3>Meal Plan</h3>
             <p>Today's meal: Rice and Curry</p>
-            <a href="/mealPlan">View Weekly Plan</a>
+            <a href="/mealplan">View Weekly Plan</a>
         </section>
         
         <section class="widget">
@@ -52,7 +40,7 @@
             </ul>
         </section>
     </div>
-
+    <%- include('../partials/footer') %>
     <script src="/public/js/dashboard.js"></script>
 </body>
 </html>

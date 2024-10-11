@@ -5,19 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback Page</title>
     <link rel="stylesheet" href="/css/feedback.css"> <!-- Link to the new feedback CSS file -->
+    <link rel="stylesheet" href="/css/navbar-footer.css">
 </head>
 <body>
     <div class="bg-image top"></div>
-    <nav class="navbar">
-        <ul class="nav-links">
-            <li><a href="/dashboard">Dashboard</a></li>
-            <li><a href="/feedback">Feedback</a></li>
-            <!-- Add other navigation links as needed -->
-        </ul>
-        <a href="/logout" class="logout">Logout</a> <!-- Logout button aligned to the right -->
-    </nav>
-    
-
+    <%- include('../partials/navbar') %>
     <div class="container">
         <section class="widget">
             <h1 class="feedback-title">Feedback Form</h1>
@@ -34,5 +26,6 @@
             </form>
         </section>
     </div>
+    <%- include('../partials/footer') %>
 </body>
 </html>

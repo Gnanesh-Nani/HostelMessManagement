@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Hostel and Mess Management</title>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header>
+            <h1>Admin Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="#meal-menu">Edit Meal Menu</a></li>
+                    <li><a href="#payments">View Payments</a></li>
+                    <li><a href="#student-records">Manage Students</a></li>
+                    <li><a href="#reports">View Reports</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section id="student-records" class="card">
+                <h2>Manage Students</h2>
+                <button id="add-student-btn" class="btn">Add New Student</button>
+                <table id="student-table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Student ID</th>
+                            <th>Room Number</th>
+                            <th>Department</th>
+                            <th>Year</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John Doe</td>
+                            <td>STU123</td>
+                            <td>Room 101</td>
+                            <td>Computer Science</td>
+                            <td>3rd Year</td>
+                            <td>
+                                <button class="btn edit-btn">Edit</button>
+                                <button class="btn delete-btn">Delete</button>
+                            </td>
+                        </tr>
+                        <!-- Add more rows dynamically from the database -->
+                    </tbody>
+                </table>
+
+                <!-- Form for Adding or Editing Student -->
+                <div id="student-form-container" class="hidden">
+                    <h3 id="form-title">Add New Student</h3>
+                    <form id="student-form">
+                        <div class="form-group">
+                            <label for="student-name">Student Name:</label>
+                            <input type="text" id="student-name" class="form-control" placeholder="Enter student name">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-id">Student ID:</label>
+                            <input type="text" id="student-id" class="form-control" placeholder="Enter student ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-room">Room Number:</label>
+                            <input type="text" id="student-room" class="form-control" placeholder="Enter room number">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-department">Department:</label>
+                            <input type="text" id="student-department" class="form-control" placeholder="Enter department">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-year">Year:</label>
+                            <input type="text" id="student-year" class="form-control" placeholder="Enter year (e.g., 1st, 2nd, 3rd)">
+                        </div>
+                        <button type="submit" class="btn" id="save-student-btn">Save Student</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
