@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Student = require('../models/Student');
 const router = express.Router();
+const Room = require('../models/Room'); 
 
 // User login route
 router.post('/login', async (req, res) => {
@@ -21,11 +22,14 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Invalid username or password' });
         }
 
-        // Create a session for this login
-        req.session.userId = user._id;  // Store the user's ID in session
-        req.session.userType = user.type;  // Store the user's type (student or admin) in session
-        req.session.isLoggedIn = true;  // Optional: track if the user is logged in
+        req.session.userId = user._id;  
+        req.session.userType = user.type;  
+        req.session.isLoggedIn = true;  
         req.session.username = username;
+
+        // Check if the user has booked any room
+        const roomBooking = await Room.findOne({ bookedBy: user._id });
+        req.session.hasBooked = !!roomBooking;  // Set `hasBooked` to true if a booking is found, otherwise false
 
         console.log(req.session);
 

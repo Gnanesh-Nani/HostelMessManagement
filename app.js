@@ -37,11 +37,22 @@ connectToDB().then(() => {
     const dashboardRoutes = require('./routes/dashboardRoutes');
     const feedbackRoutes = require('./routes/feedbackRoutes');  
     const mealPlanRoutes = require('./routes/mealPlanRoutes');
+    const paymentRoutes = require('./routes/paymentRoutes');
+    const adminDashboardRoutes = require('./routes/adminDashboardRoutes');
+    const adminMealPlanRoutes = require('./routes/adminMealPlanRoutes'); 
+    const adminFeedbackRoutes = require('./routes/adminFeedbackRoutes');
+    const bookRoomRoutes = require('./routes/bookRoomRoutes');
 
+    // Use the route
+    app.use('/', bookRoomRoutes);
+    app.use('/', adminFeedbackRoutes);
+    app.use('/', adminMealPlanRoutes); 
+    app.use('/', paymentRoutes);
     app.use('/', authRoutes);       
     app.use('/', dashboardRoutes); 
     app.use('/', feedbackRoutes); 
     app.use('/', mealPlanRoutes); 
+    app.use('/', adminDashboardRoutes);
 
     // Define a basic route (can be removed if not needed)
     app.get('/', (req, res) => {
@@ -50,7 +61,7 @@ connectToDB().then(() => {
 
     // Error handling middleware
     app.use((req, res, next) => {
-        res.status(404).send('<center><h1>Sorry, we could not find that!</h1></center>');
+        res.status(404).send('<center><h1>Sorry, the Requested Page is Under Development!</h1></center>');
     });
 
     app.use((err, req, res, next) => {

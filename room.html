@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hostel Room Booking</title>
+    <!--Google Fonts and Icons-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round|Material+Icons+Sharp|Material+Icons+Two+Tone"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      .center {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(
+          to right,
+          rgb(162, 216, 162),
+          rgb(102, 194, 102)
+        );
+      }
+      .Rooms {
+        width: 600px;
+        height: fit-content;
+        border: 0.4mm solid rgba(0, 0, 0, 0.08);
+        border-radius: 3mm;
+        box-sizing: border-box;
+        padding: 10px;
+        font-family: poppins;
+        max-height: 96vh;
+        overflow: auto;
+        background: white;
+        box-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+      .Room-selector {
+        background: rgb(243, 243, 243);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        box-sizing: border-box;
+        padding: 20px;
+      }
+      .head {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+      .title {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .floors {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      .floor-button {
+        background-color: #f2f2f2;
+        padding: 10px;
+        margin: 0 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        border: 2px solid #ccc;
+        font-family: poppins;
+      }
+      .floor-button.selected {
+        background-color: rgb(102, 194, 102);
+        color: white;
+      }
+      .rooms {
+        width: 100%;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        min-height: 150px;
+        position: relative;
+      }
+      .rooms.active {
+        display: flex;
+      }
+      .status-info {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+      .status {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+      }
+      .status .item::before {
+      content: '';
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+      border-radius: 3px;
+    }
+    .status .item:nth-child(1)::before {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+    }
+    .status .item:nth-child(2)::before {
+      background-color: #b4b4b4;
+    }
+    .status .item:nth-child(3)::before {
+      background-color: #1cb978;
+    }
+      .all-rooms {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 15px;
+        margin: 20px 0;
+        position: relative;
+      }
+      .room {
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 0.5mm;
+        outline: 0.3mm solid rgb(180, 180, 180);
+        cursor: pointer;
+        text-align: center;
+        line-height: 40px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .room.booked {
+        background: rgb(180, 180, 180);
+        outline: none;
+        cursor: not-allowed;
+      }
+      .room.selected {
+        background: rgb(28, 185, 120);
+        color: white;
+      }
+      .book-button {
+        background: rgb(60, 60, 60);
+        color: white;
+        font-family: poppins;
+        font-size: 14px;
+        padding: 7px 14px;
+        border-radius: 2mm;
+        outline: none;
+        border: none;
+        cursor: pointer;
+      }
+      .capacity-info {
+        margin-top: 20px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="center">
+      <div class="Rooms">
+        <div class="Room-selector">
+          <div class="head">
+            <div class="title">Select a Floor</div>
+          </div>
+
+          <!-- Floor Selection -->
+          <div class="floors">
+            <button class="floor-button" data-floor="1">Floor 1</button>
+            <button class="floor-button" data-floor="2">Floor 2</button>
+            <button class="floor-button" data-floor="3">Floor 3</button>
+          </div>
+
+          <!-- Status Info -->
+          <div class="status-info" id="status-info">
+            <!-- Status of booked and available rooms will be updated here -->
+          </div>
+
+          <!-- Rooms Section -->
+          <div class="rooms" id="floor-1">
+            <div class="status">
+              <div class="item">Available</div>
+              <div class="item">Booked</div>
+              <div class="item">Selected</div>
+            </div>
+            <div class="all-rooms" id="room-grid-1"></div>
+            <div class="capacity-info" id="capacity-info-1">
+              Select a room to see capacity
+            </div>
+            <button class="book-button" id="book-room-1">Book Room</button>
+          </div>
+
+          <div class="rooms" id="floor-2">
+            <div class="status">
+              <div class="item">Available</div>
+              <div class="item">Booked</div>
+              <div class="item">Selected</div>
+            </div>
+            <div class="all-rooms" id="room-grid-2"></div>
+            <div class="capacity-info" id="capacity-info-2">
+              Select a room to see capacity
+            </div>
+            <button class="book-button" id="book-room-2">Book Room</button>
+          </div>
+
+          <div class="rooms" id="floor-3">
+            <div class="status">
+              <div class="item">Available</div>
+              <div class="item">Booked</div>
+              <div class="item">Selected</div>
+            </div>
+            <div class="all-rooms" id="room-grid-3"></div>
+            <div class="capacity-info" id="capacity-info-3">
+              Select a room to see capacity
+            </div>
+            <button class="book-button" id="book-room-3">Book Room</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const floors = document.querySelectorAll('.floor-button');
+      const rooms = document.querySelectorAll('.rooms');
+      let selectedRoom = null;
+      let bookedRoomsCount = 0;
+      let availableRoomsCount = 20;
+
+      // Room data for each floor (randomized)
+      const roomsData = {
+        1: Array.from({ length: 20 }, (_, i) => ({
+          id: i + 1,
+          capacity: Math.random() < 0.5 ? 3 : 4,
+          booked: false,
+        })),
+        2: Array.from({ length: 20 }, (_, i) => ({
+          id: i + 1,
+          capacity: Math.random() < 0.5 ? 3 : 4,
+          booked: false,
+        })),
+        3: Array.from({ length: 20 }, (_, i) => ({
+          id: i + 1,
+          capacity: Math.random() < 0.5 ? 3 : 4,
+          booked: false,
+        })),
+      };
+
+      // Initialize rooms for all floors
+      function initializeRooms(floor) {
+        const roomGrid = document.getElementById(`room-grid-${floor}`);
+        const roomCapacityInfo = document.getElementById(`capacity-info-${floor}`);
+
+        roomsData[floor].forEach((room) => {
+          const roomElement = document.createElement('label');
+          roomElement.classList.add('room');
+          roomElement.innerText = `Room ${room.id}`;
+
+          if (room.booked) {
+            roomElement.classList.add('booked');
+          }
+
+          roomElement.addEventListener('click', () => {
+            if (!room.booked) {
+              if (selectedRoom) {
+                selectedRoom.element.classList.remove('selected');
+              }
+              roomElement.classList.add('selected');
+              selectedRoom = { element: roomElement, room };
+              roomCapacityInfo.innerText = `Room ${room.id} has a capacity of ${room.capacity} persons`;
+            }
+          });
+
+          roomGrid.appendChild(roomElement);
+        });
+      }
+
+      floors.forEach((floorButton) => {
+        floorButton.addEventListener('click', () => {
+          const selectedFloor = floorButton.getAttribute('data-floor');
+
+          rooms.forEach((roomElement) => {
+            roomElement.classList.remove('active');
+          });
+          document.getElementById(`floor-${selectedFloor}`).classList.add('active');
+
+          floors.forEach((btn) => btn.classList.remove('selected'));
+          floorButton.classList.add('selected');
+        });
+      });
+
+      // Booking functionality
+      rooms.forEach((roomSection) => {
+        const bookButton = roomSection.querySelector('.book-button');
+        const roomGridId = roomSection.querySelector('.all-rooms').id;
+        const selectedFloor = roomGridId.split('-')[2];
+
+        bookButton.addEventListener('click', () => {
+          if (selectedRoom) {
+            const { element, room } = selectedRoom;
+            room.booked = true;
+            element.classList.remove('selected');
+            element.classList.add('booked');
+            selectedRoom = null;
+            roomSection.querySelector(`.capacity-info`).innerText = 'Room booked successfully!';
+            bookedRoomsCount++;
+            availableRoomsCount--;
+          } else {
+            alert('Please select a room to book.');
+          }
+        });
+
+        initializeRooms(selectedFloor); // Initialize room for each floor
+      });
+    </script>
+  </body>
+</html>
