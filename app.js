@@ -42,8 +42,10 @@ connectToDB().then(() => {
     const adminMealPlanRoutes = require('./routes/adminMealPlanRoutes'); 
     const adminFeedbackRoutes = require('./routes/adminFeedbackRoutes');
     const bookRoomRoutes = require('./routes/bookRoomRoutes');
+    const adminPaymentsRoutes = require('./routes/adminPaymentRoutes');
 
     // Use the route
+    app.use(adminPaymentsRoutes);
     app.use('/', bookRoomRoutes);
     app.use('/', adminFeedbackRoutes);
     app.use('/', adminMealPlanRoutes); 

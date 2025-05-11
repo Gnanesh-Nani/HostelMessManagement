@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Portal</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap">
-    <link rel="stylesheet" href="/css/payment.css"> <!-- Payment specific styles -->
+    <link rel="stylesheet" href="/css/payment.css"> <!-- Custom CSS for styling -->
 </head>
 <body>
     <div class="bg-image top"></div>
@@ -16,6 +16,7 @@
             <div class="card-body">
                 <h1>Payment Portal</h1>
 
+                <!-- Check if there are pending payments -->
                 <% if (hasPendingPayments) { %>
                     <h3>Payment Details</h3>
                     <div class="payment-info">
@@ -23,9 +24,11 @@
                         <h4>Hostel Fee Due: <%= hostelAmount %> INR</h4>
                     </div>
 
-                    <form action="/payment" method="POST">
+                    <!-- Payment form -->
+                    <form action="/payment" method="POST" onsubmit="return handlePaymentFormSubmit(this)">
                         <input type="hidden" name="studentUsername" value="<%= username %>">
                         
+                        <!-- Select Payment Category -->
                         <h3>Select Payment Type</h3>
                         <div class="form-group">
                             <select name="category" class="form-control" required>
@@ -34,6 +37,7 @@
                             </select>
                         </div>
 
+                        <!-- Select Payment Method -->
                         <h3>Payment Method</h3>
                         <div class="form-group">
                             <label>
@@ -43,30 +47,33 @@
                                 <input type="radio" name="paymentMethod" value="upi" required> UPI
                             </label>
                         </div>
-                        
+
+                        <!-- Card Payment Details -->
                         <div id="cardDetails" style="display:none;">
                             <h3>Card Details</h3>
                             <div class="form-group">
                                 <label for="cardNumber">Card Number:</label>
-                                <input type="text" name="cardNumber" class="form-control" required>
+                                <input type="text" name="cardNumber" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="cardExpiry">Expiry Date:</label>
-                                <input type="text" name="cardExpiry" class="form-control" required placeholder="MM/YY">
+                                <input type="text" name="cardExpiry" class="form-control" placeholder="MM/YY">
                             </div>
                             <div class="form-group">
                                 <label for="cardCvv">CVV:</label>
-                                <input type="text" name="cardCvv" class="form-control" required>
+                                <input type="text" name="cardCvv" class="form-control">
                             </div>
                         </div>
 
+                        <!-- UPI Payment Details -->
                         <div id="upiDetails" style="display:none;">
                             <h3>UPI ID</h3>
                             <div class="form-group">
-                                <input type="text" name="upiId" class="form-control" required>
+                                <input type="text" name="upiId" class="form-control">
                             </div>
                         </div>
 
+                        <!-- Submit Payment -->
                         <button type="submit" class="btn">Pay Now</button>
                     </form>
                 <% } else { %>
@@ -78,6 +85,15 @@
     </div>
 
     <script>
+        function handlePaymentFormSubmit(form) {
+            console.log('Form submitted');
+            const formData = new FormData(form);
+            for (const [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+            return true;
+        }
+
         // Show/hide payment details based on selected payment method
         const paymentMethods = document.querySelectorAll('input[name="paymentMethod"]');
         paymentMethods.forEach(method => {

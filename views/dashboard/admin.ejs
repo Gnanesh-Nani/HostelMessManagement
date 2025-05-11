@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Hostel and Mess Management</title>
+    <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
     <div class="admin-container">
-        <%- include('../partials/adminnavbar') %>
+        <%- include('../partials/adminnavbar') %> <!-- Navbar include -->
         <main>
             <section id="student-records" class="card">
                 <!-- Form for Adding or Editing Student -->
@@ -16,22 +16,27 @@
                     <h3 id="form-title"><%= isEditing ? 'Edit Student' : 'Add New Student' %></h3>
                     <form id="student-form" action="<%= isEditing ? '/edit-student/' + editingStudent._id : '/add-student' %>" method="POST">
                         <input type="hidden" id="student-id" name="studentId" value="<%= isEditing ? editingStudent._id : '' %>">
+                        
                         <div class="form-group">
                             <label for="student-name">Student Name:</label>
                             <input type="text" id="student-name" name="name" class="form-control" placeholder="Enter student name" value="<%= isEditing ? editingStudent.name : '' %>" required>
                         </div>
+                        
                         <div class="form-group">
                             <label for="student-username">Username:</label>
                             <input type="text" id="student-username" name="username" class="form-control" placeholder="Enter username" value="<%= isEditing ? editingStudent.username : '' %>" required>
                         </div>
+                        
                         <div class="form-group">
                             <label for="student-email">Email:</label>
                             <input type="email" id="student-email" name="email" class="form-control" placeholder="Enter email" value="<%= isEditing ? editingStudent.email : '' %>" required>
                         </div>
+                        
                         <div class="form-group">
                             <label for="student-age">Age:</label>
                             <input type="number" id="student-age" name="age" class="form-control" placeholder="Enter age" value="<%= isEditing ? editingStudent.age : '' %>" required>
                         </div>
+                        
                         <div class="form-group">
                             <label for="student-gender">Gender:</label>
                             <select id="student-gender" name="gender" class="form-control" required>
@@ -40,26 +45,38 @@
                                 <option value="Other" <%= isEditing && editingStudent.gender === 'Other' ? 'selected' : '' %>>Other</option>
                             </select>
                         </div>
+                        
                         <div class="form-group">
                             <label for="student-course">Course:</label>
                             <input type="text" id="student-course" name="course" class="form-control" placeholder="Enter course" value="<%= isEditing ? editingStudent.course : '' %>" required>
                         </div>
+                        
                         <div class="form-group">
                             <label for="student-year">Year:</label>
                             <input type="text" id="student-year" name="year" class="form-control" placeholder="Enter year (e.g., 1st, 2nd, 3rd)" value="<%= isEditing ? editingStudent.year : '' %>" required>
                         </div>
+                        
                         <div class="form-group">
                             <label for="student-contact">Contact Number:</label>
                             <input type="text" id="student-contact" name="contactNumber" class="form-control" placeholder="Enter contact number" value="<%= isEditing ? editingStudent.contactNumber : '' %>" required>
                         </div>
+                        
                         <div class="form-group">
                             <label for="student-address">Address:</label>
                             <textarea id="student-address" name="address" class="form-control" placeholder="Enter address" required><%= isEditing ? editingStudent.address : '' %></textarea>
                         </div>
+                        
+                        <!-- New Password Field -->
+                        <div class="form-group">
+                            <label for="student-password">Password:</label>
+                            <input type="password" id="student-password" name="password" class="form-control" placeholder="Enter password" value="" required>
+                        </div>
+                        
                         <button type="submit" class="btn" id="save-student-btn">Save Student</button>
                         <button type="button" class="btn" id="cancel-btn">Cancel</button>
                     </form>
                 </div>
+                
                 <br>
                 <h2>Manage Students</h2>
                 <button id="add-student-btn" class="btn">Add New Student</button>
@@ -106,13 +123,14 @@
 
     <script>
         document.getElementById('add-student-btn').addEventListener('click', () => {
-        document.getElementById('student-form-container').classList.remove('hidden');
-        document.getElementById('form-title').innerText = 'Add New Student';
-        document.getElementById('student-form').action = '/add-student';
-        document.getElementById('student-form').reset();
+            document.getElementById('student-form-container').classList.remove('hidden');
+            document.getElementById('form-title').innerText = 'Add New Student';
+            document.getElementById('student-form').action = '/add-student';
+            document.getElementById('student-form').reset();
         });
+
         document.getElementById('cancel-btn').addEventListener('click', () => {
-        document.getElementById('student-form-container').classList.add('hidden');
+            document.getElementById('student-form-container').classList.add('hidden');
         });
     </script>
 </body>

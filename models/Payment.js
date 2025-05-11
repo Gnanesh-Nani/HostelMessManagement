@@ -21,7 +21,7 @@ const paymentSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        default: Date.now // Defaults to current date
+        default:null // Defaults to current date
     },
     status: {
         type: String,

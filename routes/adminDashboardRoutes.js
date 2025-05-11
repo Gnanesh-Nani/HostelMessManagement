@@ -1,6 +1,8 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const router = express.Router();
-const Student = require('../models/Student'); // Assuming a Student model exists
+const User = require('../models/User'); 
+const Student = require('../models/Student'); // Assuming you have a Student model
 
 // Route to render admin dashboard page
 router.get('/admin-dashboard', async (req, res) => {
@@ -13,11 +15,18 @@ router.get('/admin-dashboard', async (req, res) => {
     }
 });
 
-// Route to add a new student
+// Route to add a new student and corresponding user
 router.post('/add-student', async (req, res) => {
-    const { name, username, email, age, gender, course, year, contactNumber, address } = req.body;
+    const { name, username, email, age, gender, course, year, contactNumber, address, password } = req.body;
 
     try {
+        // Check if username already exists
+        const existingStudent = await Student.findOne({ username });
+        if (existingStudent) {
+            return res.status(400).send('Username already exists.');
+        }
+
+        // Create the new student document
         const newStudent = new Student({
             name,
             username,
@@ -29,14 +38,25 @@ router.post('/add-student', async (req, res) => {
             contactNumber,
             address
         });
-        await newStudent.save();
-        res.redirect('/admin-dashboard');
+        await newStudent.save(); // Save the student
+
+        // Hash the password for the user
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create the user for the new student
+        const newUser = new User({
+            username,
+            password: hashedPassword,  // Store hashed password
+            type: 'student'  // User type is 'student'
+        });
+        await newUser.save(); // Save the user
+
+        res.redirect('/admin-dashboard');  // Redirect to the admin dashboard
     } catch (error) {
-        console.error('Error adding new student:', error);
-        res.status(500).send('Failed to add student');
+        console.error('Error adding new student and user:', error);
+        res.status(500).send('Failed to add student and user');
     }
 });
-
 // Route to render the edit student form
 router.get('/edit-student/:id', async (req, res) => {
     const studentId = req.params.id;
@@ -74,7 +94,7 @@ router.post('/edit-student/:id', async (req, res) => {
         });
         res.redirect('/admin-dashboard');
     } catch (error) {
-        console.error('Error updating student data:', error);
+        console.error('Error updating student:', error);
         res.status(500).send('Failed to update student');
     }
 });
@@ -84,12 +104,27 @@ router.post('/delete-student/:id', async (req, res) => {
     const studentId = req.params.id;
 
     try {
+        // Find the student to get their username
+        const student = await Student.findById(studentId);
+        if (!student) {
+            return res.status(404).send('Student not found');
+        }
+
+        // Delete student from `students` collection
         await Student.findByIdAndDelete(studentId);
+
+        // Delete user account linked to this student
+        await User.findOneAndDelete({ username: student.username });
+
+        console.log(`Deleted student: ${student.username} and associated user account`);
+
         res.redirect('/admin-dashboard');
     } catch (error) {
         console.error('Error deleting student:', error);
         res.status(500).send('Failed to delete student');
     }
 });
+
+module.exports = router;
 
 module.exports = router;
